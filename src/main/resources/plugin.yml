@@ -1,0 +1,4 @@
+name: CitybuildSystem
+version: '${project.version}'
+main: de.flunar.citybuildsystem.CitybuildSystem
+api-version: '1.20'
