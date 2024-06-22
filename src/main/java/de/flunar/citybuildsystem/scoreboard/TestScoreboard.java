@@ -25,11 +25,11 @@ public class TestScoreboard extends ScoreboardBuilder {
 
     @Override
     public void createScoreboard() {
-        setScore(" ", 14);
-        setScore(ChatColor.DARK_GRAY + "§l• " + ChatColor.GRAY + "Profil:", 13);
-        setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.GREEN + player.getName(), 12);
-        setScore("  ", 11);
-        setScore(ChatColor.DARK_GRAY + "§l• " + ChatColor.GRAY + "Rang:", 10);
+        setScore(" ", 12);
+        setScore(ChatColor.DARK_GRAY + "§l• " + ChatColor.GRAY + "Profil:", 11);
+        setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.GREEN + player.getName(), 10);
+        setScore("  ", 9);
+        setScore(ChatColor.DARK_GRAY + "§l• " + ChatColor.GRAY + "Rang:", 8);
         luckPerms = LuckPermsProvider.get();
 
         if (user != null) {
@@ -45,17 +45,17 @@ public class TestScoreboard extends ScoreboardBuilder {
                 String formattedGroupName = firstChar + groupDisplayName.substring(1);
 
                 // Füge den formatierten Gruppennamen dem Scoreboard hinzu
-                setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.YELLOW + formattedGroupName, 9);
+                setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.YELLOW + formattedGroupName, 7);
             }
         }
 
-        setScore("   ", 8);
-        setScore(ChatColor.DARK_GRAY + "§l• " + ChatColor.GRAY + "Discord:", 7);
-        setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.AQUA + "dc.flunar.de", 6);
-        setScore("    ", 5);
-        setScore(ChatColor.DARK_GRAY + "§l• " + ChatColor.GRAY + "Geld:", 4);
-        setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.RED + "Soon", 3);
-        setScore("      ", 2);
+        setScore("   ", 6);
+        setScore(ChatColor.DARK_GRAY + "§l• " + ChatColor.GRAY + "Geld:", 5);
+        setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.RED + "Soon", 4);
+        setScore("    ", 3);
+        setScore(ChatColor.DARK_GRAY + "§l• " + ChatColor.GRAY + "Discord:", 2);
+        setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.AQUA + "dc.flunar.de", 1);
+        setScore("      ", 0);
     }
 
     @Override
@@ -83,19 +83,19 @@ public class TestScoreboard extends ScoreboardBuilder {
                                 String formattedGroupName = firstChar + groupDisplayName.substring(1);
 
                                 // Füge den formatierten Gruppennamen dem Scoreboard hinzu
-                                setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.YELLOW + formattedGroupName, 9);
+                                setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.YELLOW + formattedGroupName, 7);
                             }
                         }
                         break;
                     case 1:
-                        setScore(ChatColor.DARK_GRAY + "§l• " + ChatColor.GRAY + "Twitter:", 7);
-                        setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.AQUA + "@Flunar_de", 6);
+                        setScore(ChatColor.DARK_GRAY + "§l• " + ChatColor.GRAY + "Twitter:", 2);
+                        setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.AQUA + "@Flunar_de", 1);
                         break;
                     case 2:
                         break;
                     case 3:
-                        setScore(ChatColor.DARK_GRAY + "§l• " + ChatColor.GRAY + "Discord:", 7);
-                        setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.BLUE + "dc.flunar.de", 6);
+                        setScore(ChatColor.DARK_GRAY + "§l• " + ChatColor.GRAY + "Discord:", 2);
+                        setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.BLUE + "dc.flunar.de", 1);
                         break;
 
 
