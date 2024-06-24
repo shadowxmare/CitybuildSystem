@@ -1,5 +1,6 @@
 package de.flunar.citybuildsystem;
 
+import de.flunar.citybuildsystem.commands.FarmweltCommand;
 import de.flunar.citybuildsystem.commands.SetSpawnCommand;
 
 import de.flunar.citybuildsystem.commands.SpawnCommand;
@@ -63,6 +64,8 @@ public final class CitybuildSystem extends JavaPlugin {
         this.getCommand("tpsmonitor").setExecutor(new TPSMonitorCommand(this));
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
         new SpawnCommand(this, mysqlManager);
+        new FarmweltCommand(this, mysqlManager);
+
     }
 
     @Override

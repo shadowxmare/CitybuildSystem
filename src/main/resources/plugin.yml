@@ -7,6 +7,9 @@ commands:
   spawn:
     description: Teleportiert den Spieler zur Spawn-Location mit der ID 1.
     usage: /spawn
+  farmwelt:
+    description: Teleportiert den Spieler zur Spawn-Location mit der ID 1.
+    usage: /farmwelt
   tpsmonitor:
     description: Toggles the TPS monitor.
     usage: /tpsmonitor
