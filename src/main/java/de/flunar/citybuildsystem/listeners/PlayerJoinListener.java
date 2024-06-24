@@ -1,9 +1,9 @@
 package de.flunar.citybuildsystem.listeners;
 
 import de.flunar.citybuildsystem.CitybuildSystem;
+import de.flunar.citybuildsystem.managers.MySQLManager;
 import de.flunar.citybuildsystem.scoreboard.TestScoreboard;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,9 +11,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerJoinListener implements Listener {
 
+    private final MySQLManager mysqlManager;
     private final CitybuildSystem plugin;
 
-    public PlayerJoinListener(CitybuildSystem plugin) {
+    public PlayerJoinListener(MySQLManager mysqlManager, CitybuildSystem plugin) {
+        this.mysqlManager = mysqlManager;
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
@@ -25,5 +27,12 @@ public class PlayerJoinListener implements Listener {
 
         event.setJoinMessage(ChatColor.GRAY + playerName + ChatColor.GRAY + ": " + ChatColor.GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.GRAY + "]");
         new TestScoreboard(player);
+
+        // Beispiel für die Verwendung von MySQLManager
+        int spawnId = 1; // Hier die ID einfügen, die du verwenden möchtest
+        if (mysqlManager != null) {
+            // Beispiel für das Abrufen der Spawn-Location und Teleportation
+            player.teleport(mysqlManager.getSpawnLocation(spawnId));
+        }
     }
 }

@@ -1,5 +1,8 @@
 package de.flunar.citybuildsystem.managers;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,8 +26,8 @@ public class MySQLManager {
 
     public boolean connect() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false&serverTimezone=UTC";
             connection = DriverManager.getConnection(url, username, password);
             logger.info("Connected to MySQL database: " + database);
             return true;
@@ -59,8 +62,9 @@ public class MySQLManager {
             return null;
         }
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            return statement.executeQuery();
+        try {
+            Statement statement = connection.createStatement();
+            return statement.executeQuery(sql);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Error executing SQL query", e);
             return null;
@@ -72,8 +76,9 @@ public class MySQLManager {
             return -1;
         }
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            return statement.executeUpdate();
+        try {
+            Statement statement = connection.createStatement();
+            return statement.executeUpdate(sql);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Error executing SQL update", e);
             return -1;
@@ -85,5 +90,26 @@ public class MySQLManager {
             return null;
         }
         return connection;
+    }
+
+    public Location getSpawnLocation(int spawnId) {
+        String query = "SELECT world, x, y, z, yaw, pitch FROM spawns_data WHERE spawns = ?;";
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, spawnId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String worldName = resultSet.getString("world");
+                double x = resultSet.getDouble("x");
+                double y = resultSet.getDouble("y");
+                double z = resultSet.getDouble("z");
+                float yaw = resultSet.getFloat("yaw");
+                float pitch = resultSet.getFloat("pitch");
+                return new Location(Bukkit.getWorld(worldName), x, y, z, yaw, pitch);
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error getting spawn location from database", e);
+        }
+        return null;
     }
 }

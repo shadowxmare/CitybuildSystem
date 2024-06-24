@@ -2,6 +2,7 @@ package de.flunar.citybuildsystem;
 
 import de.flunar.citybuildsystem.commands.SetSpawnCommand;
 
+import de.flunar.citybuildsystem.commands.SpawnCommand;
 import de.flunar.citybuildsystem.commands.TPSMonitorCommand;
 import de.flunar.citybuildsystem.listeners.PlayerJoinListener;
 import de.flunar.citybuildsystem.listeners.PlayerQuitListener;
@@ -55,11 +56,13 @@ public final class CitybuildSystem extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(Data.PREFIX + ChatColor.GREEN + "Das Citybuild System wurde gestartet!");
         Bukkit.getConsoleSender().sendMessage(Data.PREFIX + ChatColor.RED + "Code By Iownme_ / Shadowxmare");
 
-        new PlayerJoinListener(this);
+        new PlayerJoinListener(mysqlManager, this);
         new PlayerQuitListener(this);
 
+        //COMMANDS
         this.getCommand("tpsmonitor").setExecutor(new TPSMonitorCommand(this));
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
+        new SpawnCommand(this, mysqlManager);
     }
 
     @Override
