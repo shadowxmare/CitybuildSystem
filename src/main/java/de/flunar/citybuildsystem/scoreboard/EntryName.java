@@ -18,7 +18,8 @@ public enum EntryName {
     ENTRY_11(11, ChatColor.ITALIC.toString()),
     ENTRY_12(12, ChatColor.WHITE.toString()),
     ENTRY_13(13, ChatColor.GREEN.toString()),
-    ENTRY_14(14, ChatColor.DARK_BLUE.toString());
+    ENTRY_14(14, ChatColor.DARK_BLUE.toString()),
+    ENTRY_15(15, ChatColor.GOLD.toString());
 
     private final int entry;
     private final String entryName;

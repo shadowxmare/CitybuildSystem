@@ -4,9 +4,13 @@ main: de.flunar.citybuildsystem.CitybuildSystem
 api-version: '1.20'
 
 commands:
-  setspawn:
-    description: Setzt den Spawnpunkt für die Spieler.
-    usage: /setspawn
   spawn:
     description: Teleportiert dich zum gesetzten Spawnpunkt.
     usage: /spawn
+  tpsmonitor:
+    description: Toggles the TPS monitor.
+    usage: /tpsmonitor
+  setspawn:
+    description: Sets the spawn point.
+    usage: /setspawn
+    permission: flunar.admin

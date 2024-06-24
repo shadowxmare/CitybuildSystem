@@ -1,60 +1,68 @@
 package de.flunar.citybuildsystem.commands;
 
+import de.flunar.citybuildsystem.CitybuildSystem;
+import de.flunar.citybuildsystem.managers.MySQLManager;
 import de.flunar.citybuildsystem.utils.Data;
 import org.bukkit.ChatColor;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class SetSpawnCommand implements CommandExecutor {
 
-    private String permission = "flunar.admin";
+    private final CitybuildSystem plugin;
 
-    private JavaPlugin plugin;
-    private FileConfiguration config;
-
-    public SetSpawnCommand(JavaPlugin plugin) {
+    public SetSpawnCommand(CitybuildSystem plugin) {
         this.plugin = plugin;
-        this.config = plugin.getConfig();
+        plugin.getCommand("setspawn").setExecutor(this);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("setspawn")) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                if (!player.hasPermission(permission)) {
-                    player.sendMessage(Data.NO_PERMS);
-                    return true;
-                }
-
-                String worldName = player.getWorld().getName();
-                double x = player.getLocation().getX();
-                double y = player.getLocation().getY();
-                double z = player.getLocation().getZ();
-                float yaw = player.getLocation().getYaw();
-                float pitch = player.getLocation().getPitch();
-
-                config.set("spawn.world", worldName);
-                config.set("spawn.x", x);
-                config.set("spawn.y", y);
-                config.set("spawn.z", z);
-                config.set("spawn.yaw", yaw);
-                config.set("spawn.pitch", pitch);
-
-                plugin.saveConfig(); // Save the config without handling IOException
-
-                player.sendMessage(Data.PREFIX + ChatColor.GREEN + "Spawn-Punkt wurde gesetzt.");
-                player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1.0f, 1.0f);
-            } else {
-                sender.sendMessage(Data.PREFIX + ChatColor.RED + "Dieser Befehl kann nur von einem Spieler ausgeführt werden.");
-            }
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(Data.PREFIX + "This command can only be used by players.");
             return true;
         }
-        return false;
+
+        Player player = (Player) sender;
+
+        if (!player.hasPermission("flunar.admin")) {
+            player.sendMessage(Data.NO_PERMS);
+            return true;
+        }
+
+        // Zugriff auf MySQLManager aus CitybuildSystem
+        MySQLManager mysqlManager = plugin.getMySQLManager();
+        if (mysqlManager == null || !mysqlManager.isConnected()) {
+            player.sendMessage(Data.PREFIX + ChatColor.RED + "Failed to connect to MySQL database.");
+            return true;
+        }
+
+        // Beispiel: SQL-Befehl ausführen
+        try {
+            double x = player.getLocation().getX();
+            double y = player.getLocation().getY();
+            double z = player.getLocation().getZ();
+            String playerName = player.getName();
+
+            String sql = "INSERT INTO spawns (player_name, x, y, z) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement statement = mysqlManager.getConnection().prepareStatement(sql)) {
+                statement.setString(1, playerName);
+                statement.setDouble(2, x);
+                statement.setDouble(3, y);
+                statement.setDouble(4, z);
+                statement.executeUpdate();
+                player.sendMessage(Data.PREFIX + ChatColor.GREEN + "Spawn successfully set.");
+            }
+        } catch (SQLException e) {
+            player.sendMessage(Data.PREFIX + ChatColor.RED + "Failed to set spawn: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return true;
     }
 }

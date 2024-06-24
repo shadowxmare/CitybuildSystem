@@ -3,6 +3,7 @@ package de.flunar.citybuildsystem.listeners;
 import de.flunar.citybuildsystem.CitybuildSystem;
 import de.flunar.citybuildsystem.scoreboard.TestScoreboard;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,14 +18,11 @@ public class PlayerJoinListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-
     @EventHandler
-    public void onJoin(PlayerJoinEvent event){
+    public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        String playerName = event.getPlayer().getName();
+        String playerName = player.getName();
 
-
-        event.setJoinMessage(null);
         event.setJoinMessage(ChatColor.GRAY + playerName + ChatColor.GRAY + ": " + ChatColor.GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.GRAY + "]");
         new TestScoreboard(player);
     }
