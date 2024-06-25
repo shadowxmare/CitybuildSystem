@@ -36,6 +36,7 @@ public class FarmweltCommand implements CommandExecutor {
         if (spawnLocation != null) {
             player.teleport(spawnLocation);
             player.sendMessage(Data.PREFIX + ChatColor.GREEN + "Du wurdest in Die Farmwelt Teleportiert");
+            player.sendMessage(Data.PREFIX + ChatColor.RED + "ACHTUNG! PvP ist in dieser Welt Aktiviert");
             player.playSound(spawnLocation, Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
         } else {
             player.sendMessage(Data.PREFIX + ChatColor.RED + "Ein fehler ist aufgetreten melde dies bitte im Support");

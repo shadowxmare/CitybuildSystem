@@ -2,6 +2,7 @@ package de.flunar.citybuildsystem.managers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 
 import java.sql.*;
 import java.util.logging.Level;
@@ -100,16 +101,23 @@ public class MySQLManager {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String worldName = resultSet.getString("world");
+                World world = Bukkit.getWorld(worldName);
+                if (world == null) {
+                    throw new SQLException("Welt " + worldName + " konnte nicht gefunden werden.");
+                }
                 double x = resultSet.getDouble("x");
                 double y = resultSet.getDouble("y");
                 double z = resultSet.getDouble("z");
                 float yaw = resultSet.getFloat("yaw");
                 float pitch = resultSet.getFloat("pitch");
-                return new Location(Bukkit.getWorld(worldName), x, y, z, yaw, pitch);
+                return new Location(world, x, y, z, yaw, pitch);
+            } else {
+                throw new SQLException("Kein Spawn-Punkt mit der ID " + spawnId + " gefunden.");
             }
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error getting spawn location from database", e);
+            e.printStackTrace();
         }
         return null;
     }
+
 }
