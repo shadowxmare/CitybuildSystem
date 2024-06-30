@@ -4,7 +4,6 @@ import de.flunar.citybuildsystem.commands.FarmweltCommand;
 import de.flunar.citybuildsystem.commands.SetSpawnCommand;
 
 import de.flunar.citybuildsystem.commands.SpawnCommand;
-import de.flunar.citybuildsystem.commands.TPSMonitorCommand;
 import de.flunar.citybuildsystem.listeners.ChatListener;
 import de.flunar.citybuildsystem.listeners.PlayerDeathListener;
 import de.flunar.citybuildsystem.listeners.PlayerJoinListener;
@@ -18,8 +17,6 @@ import de.flunar.citybuildsystem.utils.DiscordWebhookSender;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -91,7 +88,6 @@ public final class CitybuildSystem extends JavaPlugin {
         }.runTaskLater(this, 100L); // 100 Ticks (5 Sekunden) warten
 
         //COMMANDS
-        this.getCommand("tpsmonitor").setExecutor(new TPSMonitorCommand(this));
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
         new SpawnCommand(this, mysqlManager);
         new FarmweltCommand(this, mysqlManager);
