@@ -52,7 +52,7 @@ public class TestScoreboard extends ScoreboardBuilder {
         setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.RED + getFormattedBalance(), 7);
         setScore("       ", 6);
         setScore(ChatColor.DARK_GRAY + "§l• " + ChatColor.GRAY + "CB-Spieler:", 5);
-        setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.YELLOW + getOnlinePlayerCount() + ChatColor.GRAY + "/" + ChatColor.YELLOW + getMaxPlayers(), 4);
+        setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.GOLD + getOnlinePlayerCount() + ChatColor.GRAY + "/" + ChatColor.GOLD+ getMaxPlayers(), 4);
         setScore("     ", 3);
         setScore(ChatColor.DARK_GRAY + "§l• " + ChatColor.GRAY + "Discord:", 2);
         setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.AQUA + "dc.flunar.de", 1);
@@ -62,7 +62,7 @@ public class TestScoreboard extends ScoreboardBuilder {
     @Override
     public void update() {
         setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.RED + getFormattedBalance(), 7);
-        setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.YELLOW + getOnlinePlayerCount() + ChatColor.GRAY + "/" + ChatColor.YELLOW + getMaxPlayers(), 4);
+        setScore(ChatColor.DARK_GRAY + "§l➥ " + ChatColor.GOLD + getOnlinePlayerCount() + ChatColor.GRAY + "/" + ChatColor.GOLD + getMaxPlayers(), 4);
     }
 
     private void run() {

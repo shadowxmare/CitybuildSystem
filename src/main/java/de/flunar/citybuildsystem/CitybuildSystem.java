@@ -89,6 +89,7 @@ public final class CitybuildSystem extends JavaPlugin {
 
         //COMMANDS
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
+
         new SpawnCommand(this, mysqlManager);
         new FarmweltCommand(this, mysqlManager);
 
