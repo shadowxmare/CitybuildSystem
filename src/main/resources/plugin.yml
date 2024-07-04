@@ -14,3 +14,6 @@ commands:
     description: Sets the spawn point.
     usage: /setspawn
     permission: flunar.admin
+  cbhelp:
+    description: Help Command
+    usage: /cbhelp

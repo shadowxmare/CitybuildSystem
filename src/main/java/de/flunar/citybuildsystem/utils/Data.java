@@ -10,5 +10,7 @@ public class Data {
 
     public static String FARMWELT_BUILD_MESSAGE = Data.PREFIX + ChatColor.RED + "Dazu hast du Keine rechte! " + "Laufe 100 blöcke um Interagieren zu Können";
 
+    public static String HELP_COMMAND_PREFIX = ChatColor.GRAY + "------------" + ChatColor.AQUA + " §lCITYBUILD " + ChatColor.GRAY + "------------";
+
 
 }

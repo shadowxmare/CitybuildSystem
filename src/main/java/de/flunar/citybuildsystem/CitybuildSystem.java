@@ -1,10 +1,10 @@
 package de.flunar.citybuildsystem;
 
+import de.flunar.citybuildsystem.commands.CBHelpCommand;
 import de.flunar.citybuildsystem.commands.FarmweltCommand;
 import de.flunar.citybuildsystem.commands.SetSpawnCommand;
 
 import de.flunar.citybuildsystem.commands.SpawnCommand;
-import de.flunar.citybuildsystem.listeners.ChatListener;
 import de.flunar.citybuildsystem.listeners.PlayerDeathListener;
 import de.flunar.citybuildsystem.listeners.PlayerJoinListener;
 import de.flunar.citybuildsystem.listeners.PlayerQuitListener;
@@ -13,7 +13,6 @@ import de.flunar.citybuildsystem.managers.DatabaseConfig;
 import de.flunar.citybuildsystem.managers.MySQLManager;
 import de.flunar.citybuildsystem.managers.ProtectionManager;
 import de.flunar.citybuildsystem.utils.Data;
-import de.flunar.citybuildsystem.utils.DiscordWebhookSender;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -33,15 +32,11 @@ public final class CitybuildSystem extends JavaPlugin {
 
     private DatabaseConfig databaseConfig;
     private MySQLManager mysqlManager;
-    private DiscordWebhookSender discordWebhookSender;
 
 
     @Override
     public void onEnable() {
 
-
-        // Initialisiere den DiscordWebhookSender mit deiner Webhook-URL
-        discordWebhookSender = new DiscordWebhookSender("https://discord.com/api/webhooks/1255104579486486610/2kWkbZ7WozKgYhrZsma0wZiBtBHaGIUu-dRa8h-BiV8HLyjaDZwlz0myWCL6oPK6ooCH");
 
         instance = this;
 
@@ -69,8 +64,6 @@ public final class CitybuildSystem extends JavaPlugin {
         new PlayerJoinListener(mysqlManager, this);
         new PlayerQuitListener(this);
         new PlayerDeathListener(mysqlManager,this);
-        getServer().getPluginManager().registerEvents(new ChatListener(this, discordWebhookSender), this);
-
         //Farmwelt
         new BukkitRunnable() {
             @Override
@@ -89,6 +82,8 @@ public final class CitybuildSystem extends JavaPlugin {
 
         //COMMANDS
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
+        getCommand("cbhelp").setExecutor(new CBHelpCommand());
+
 
         new SpawnCommand(this, mysqlManager);
         new FarmweltCommand(this, mysqlManager);
