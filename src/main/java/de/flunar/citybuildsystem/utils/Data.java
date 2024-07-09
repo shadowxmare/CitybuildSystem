@@ -12,5 +12,7 @@ public class Data {
 
     public static String HELP_COMMAND_PREFIX = ChatColor.GRAY + "------------" + ChatColor.AQUA + " §lCITYBUILD " + ChatColor.GRAY + "------------";
 
+    public static String FARMWORLD_NPC = ChatColor.GRAY + "»" + ChatColor.AQUA + "§lFarmwelt";
+
 
 }

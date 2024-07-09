@@ -16,4 +16,7 @@ commands:
     permission: flunar.admin
   cbhelp:
     description: Help Command
-    usage: /cbhelp
+    usage: /cbhel
+  hide:
+    description: Macht einen Spieler unsichtbar für andere Spieler.
+    usage: /hide

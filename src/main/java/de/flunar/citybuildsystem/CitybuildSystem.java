@@ -1,10 +1,7 @@
 package de.flunar.citybuildsystem;
 
-import de.flunar.citybuildsystem.commands.CBHelpCommand;
-import de.flunar.citybuildsystem.commands.FarmweltCommand;
-import de.flunar.citybuildsystem.commands.SetSpawnCommand;
+import de.flunar.citybuildsystem.commands.*;
 
-import de.flunar.citybuildsystem.commands.SpawnCommand;
 import de.flunar.citybuildsystem.listeners.PlayerDeathListener;
 import de.flunar.citybuildsystem.listeners.PlayerJoinListener;
 import de.flunar.citybuildsystem.listeners.PlayerQuitListener;
@@ -83,10 +80,16 @@ public final class CitybuildSystem extends JavaPlugin {
         //COMMANDS
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
         getCommand("cbhelp").setExecutor(new CBHelpCommand());
+        getCommand("hide").setExecutor(new HideCommand(this));
+
 
 
         new SpawnCommand(this, mysqlManager);
         new FarmweltCommand(this, mysqlManager);
+
+
+
+
 
 
     }
