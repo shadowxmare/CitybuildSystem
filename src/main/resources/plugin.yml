@@ -20,3 +20,5 @@ commands:
   hide:
     description: Macht einen Spieler unsichtbar für andere Spieler.
     usage: /hide
+  cbgui:
+    description: Öffnet das Citybuild GUI.

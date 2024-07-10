@@ -16,11 +16,15 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class PlayerJoinListener implements Listener {
 
     private final MySQLManager mysqlManager;
     private final CitybuildSystem plugin;
     private final HideCommand hideCommand;
+    private final Set<String> notifiedPlayers = new HashSet<>();
 
     public PlayerJoinListener(MySQLManager mysqlManager, CitybuildSystem plugin, HideCommand hideCommand) {
         this.mysqlManager = mysqlManager;
@@ -38,12 +42,15 @@ public class PlayerJoinListener implements Listener {
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
         event.setJoinMessage(ChatColor.GRAY + playerName + ChatColor.GRAY + ": " + ChatColor.GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.GRAY + "]");
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                player.sendMessage(Data.PREFIX + ChatColor.RED + "Nutze " + ChatColor.YELLOW + "/cbhelp" + ChatColor.RED + " um Hilfe zu bekommen!");
-            }
-        }.runTaskLater(plugin, 50L);
+        if (!notifiedPlayers.contains(playerName)) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    player.sendMessage(Data.PREFIX + ChatColor.RED + "Nutze " + ChatColor.YELLOW + "/cbhelp" + ChatColor.RED + " um Hilfe zu bekommen!");
+                }
+            }.runTaskLater(plugin, 50L);
+            notifiedPlayers.add(playerName);
+        }
 
         new TestScoreboard(player);
 
@@ -63,10 +70,12 @@ public class PlayerJoinListener implements Listener {
         });
 
         // Füge den Glüheffekt zu allen Spielern hinzu, außer zu denen, die flunar.team Berechtigung haben
-        Bukkit.getOnlinePlayers().forEach(onlinePlayer -> {
-            if (!onlinePlayer.hasPermission("flunar.team") && !onlinePlayer.equals(player)) {
-                onlinePlayer.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, false, false, false));
-            }
-        });
+        if (!player.hasPermission("flunar.team")) {
+            Bukkit.getOnlinePlayers().forEach(onlinePlayer -> {
+                if (!onlinePlayer.equals(player)) {
+                    onlinePlayer.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, false, false, false));
+                }
+            });
+        }
     }
 }

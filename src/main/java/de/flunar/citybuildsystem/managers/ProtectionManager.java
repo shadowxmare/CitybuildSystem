@@ -5,11 +5,19 @@ import de.flunar.citybuildsystem.utils.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProtectionManager implements Listener {
 
@@ -50,8 +58,24 @@ public class ProtectionManager implements Listener {
         }
     }
 
+    @EventHandler
+    public void onEntityChangeBlock(EntityChangeBlockEvent event) {
+        if (isInProtectedArea(event.getBlock().getLocation()) && event.getEntityType() != EntityType.PLAYER) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent event) {
+        List<Block> blocksToRemove = event.blockList().stream()
+                .filter(block -> isInProtectedArea(block.getLocation()))
+                .collect(Collectors.toList());
+
+        blocksToRemove.forEach(block -> event.blockList().remove(block));
+    }
+
     private boolean isInProtectedArea(Location location) {
-        if (location.getWorld().equals(protectedLocation.getWorld())) {
+        if (location.getWorld() != null && location.getWorld().equals(protectedLocation.getWorld())) {
             double distance = location.distance(protectedLocation);
             return distance <= radius;
         }

@@ -14,5 +14,7 @@ public class Data {
 
     public static String FARMWORLD_NPC = ChatColor.GRAY + "»" + ChatColor.AQUA + "§lFarmwelt";
 
+    public static String CBGUI_COMMAND_GUI = ChatColor.GREEN + "§lCitybuild";
+
 
 }

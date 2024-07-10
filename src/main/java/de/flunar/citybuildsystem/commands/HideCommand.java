@@ -4,6 +4,7 @@ import de.flunar.citybuildsystem.CitybuildSystem;
 import de.flunar.citybuildsystem.utils.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -50,6 +51,7 @@ public class HideCommand implements CommandExecutor {
             }
             removeGlowingEffectFromAllPlayers();
             player.sendMessage(Data.PREFIX + ChatColor.RED + "Du bist jetzt wieder sichtbar.");
+            player.playSound(player.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 1.0f, 1.0f);
         } else {
             // Spieler unsichtbar machen
             hiddenPlayers.add(player.getUniqueId());
@@ -60,6 +62,7 @@ public class HideCommand implements CommandExecutor {
                 addGlowingEffect(onlinePlayer);
             }
             player.sendMessage(Data.PREFIX + ChatColor.GREEN + "Du bist jetzt unsichtbar.");
+            player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1.0f, 1.0f);
         }
 
         return true;

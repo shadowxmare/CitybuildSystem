@@ -58,7 +58,8 @@ public final class CitybuildSystem extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(Data.PREFIX + ChatColor.GREEN + "Das Citybuild System wurde gestartet!");
         Bukkit.getConsoleSender().sendMessage(Data.PREFIX + ChatColor.RED + "Code By Iownme_ / Shadowxmare");
 
-        new PlayerJoinListener(mysqlManager, this);
+        HideCommand hideCommand = new HideCommand(this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(mysqlManager, this, hideCommand), this);
         new PlayerQuitListener(this);
         new PlayerDeathListener(mysqlManager,this);
         //Farmwelt
@@ -81,6 +82,7 @@ public final class CitybuildSystem extends JavaPlugin {
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
         getCommand("cbhelp").setExecutor(new CBHelpCommand());
         getCommand("hide").setExecutor(new HideCommand(this));
+        getCommand("cbgui").setExecutor(new CBGuiCommand(this));
 
 
 
