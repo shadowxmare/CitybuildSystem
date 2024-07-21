@@ -38,9 +38,10 @@ public class CBGuiCommand implements CommandExecutor, Listener {
 
         // Füge die spezifischen Items hinzu
         gui.setItem(10, createGuiItem(Material.GRASS_BLOCK, ChatColor.GREEN + "§lFarmwelt"));
-        gui.setItem(13, createGuiItem(Material.NETHERRACK, ChatColor.RED + "§lNether (soon)"));
+        gui.setItem(13, createGuiItem(Material.NETHERRACK, ChatColor.RED + "§lNether"));
         gui.setItem(16, createGuiItem(Material.END_STONE, ChatColor.YELLOW + "§lEnd (soon)"));
         gui.setItem(31, createGuiItem(Material.SPAWNER, ChatColor.LIGHT_PURPLE + "§lRewards"));
+        gui.setItem(29, createGuiItem(Material.BEACON, ChatColor.AQUA + "§lBooster"));
 
         // Fülle die restlichen Slots mit blauem Glas
         ItemStack fillerItem = createGuiItem(Material.BLUE_STAINED_GLASS_PANE, " ");
@@ -83,6 +84,18 @@ public class CBGuiCommand implements CommandExecutor, Listener {
             if (clickedItem != null && clickedItem.getType() == Material.GRASS_BLOCK) {
                 player.closeInventory();
                 player.performCommand("farmwelt");
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+            }
+
+            if (clickedItem != null && clickedItem.getType() == Material.BEACON) {
+                player.closeInventory();
+                player.performCommand("booster");
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+            }
+
+            if (clickedItem != null && clickedItem.getType() == Material.NETHERRACK) {
+                player.closeInventory();
+                player.performCommand("nether");
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
             }
         }

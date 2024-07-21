@@ -18,6 +18,7 @@ public class CBHelpCommand implements CommandExecutor {
             sender.sendMessage(ChatColor.YELLOW + "/spawn " + ChatColor.GRAY + "- Bringt dich Zum Spawn");
             sender.sendMessage(ChatColor.YELLOW + "/p home " + ChatColor.GRAY + "- Bring dich zu deinem Plot");
             sender.sendMessage(ChatColor.YELLOW + "/p auto " + ChatColor.GRAY + "- Erhalte ein zufälliges Plot");
+            sender.sendMessage(ChatColor.YELLOW + "/cbgui " + ChatColor.GRAY + "- Zeige das Gui des Npc`s an");
             sender.sendMessage(Data.HELP_COMMAND_PREFIX);
 
             // Überprüfen, ob der Absender ein Spieler ist und den Sound abspielen

@@ -72,10 +72,14 @@ public class PlayerJoinListener implements Listener {
         // Füge den Glüheffekt zu allen Spielern hinzu, außer zu denen, die flunar.team Berechtigung haben
         if (!player.hasPermission("flunar.team")) {
             Bukkit.getOnlinePlayers().forEach(onlinePlayer -> {
-                if (!onlinePlayer.equals(player)) {
+                if (!onlinePlayer.equals(player) && !hideCommand.getHiddenPlayers().contains(onlinePlayer.getUniqueId())) {
                     onlinePlayer.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, false, false, false));
                 }
             });
+        }
+
+        if (hideCommand.getHiddenPlayers().contains(player.getUniqueId())) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, false, false, false));
         }
     }
 }

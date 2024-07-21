@@ -10,9 +10,7 @@ import de.flunar.citybuildsystem.managers.DatabaseConfig;
 import de.flunar.citybuildsystem.managers.MySQLManager;
 import de.flunar.citybuildsystem.managers.ProtectionManager;
 import de.flunar.citybuildsystem.utils.Data;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -62,6 +60,7 @@ public final class CitybuildSystem extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(mysqlManager, this, hideCommand), this);
         new PlayerQuitListener(this);
         new PlayerDeathListener(mysqlManager,this);
+
         //Farmwelt
         new BukkitRunnable() {
             @Override
@@ -78,12 +77,13 @@ public final class CitybuildSystem extends JavaPlugin {
             }
         }.runTaskLater(this, 100L); // 100 Ticks (5 Sekunden) warten
 
+
         //COMMANDS
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
         getCommand("cbhelp").setExecutor(new CBHelpCommand());
         getCommand("hide").setExecutor(new HideCommand(this));
         getCommand("cbgui").setExecutor(new CBGuiCommand(this));
-
+        getCommand("nether").setExecutor(new NetherCommand(this));
 
 
         new SpawnCommand(this, mysqlManager);

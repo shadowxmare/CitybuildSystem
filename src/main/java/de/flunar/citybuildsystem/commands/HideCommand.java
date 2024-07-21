@@ -9,8 +9,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -49,7 +47,6 @@ public class HideCommand implements CommandExecutor {
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
                 onlinePlayer.showPlayer(plugin, player);
             }
-            removeGlowingEffectFromAllPlayers();
             player.sendMessage(Data.PREFIX + ChatColor.RED + "Du bist jetzt wieder sichtbar.");
             player.playSound(player.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 1.0f, 1.0f);
         } else {
@@ -59,26 +56,11 @@ public class HideCommand implements CommandExecutor {
                 if (!onlinePlayer.hasPermission("flunar.team")) {
                     onlinePlayer.hidePlayer(plugin, player);
                 }
-                addGlowingEffect(onlinePlayer);
             }
             player.sendMessage(Data.PREFIX + ChatColor.GREEN + "Du bist jetzt unsichtbar.");
             player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1.0f, 1.0f);
         }
 
         return true;
-    }
-
-    private void addGlowingEffect(Player player) {
-        player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, false, false, false));
-    }
-
-    private void removeGlowingEffect(Player player) {
-        player.removePotionEffect(PotionEffectType.GLOWING);
-    }
-
-    private void removeGlowingEffectFromAllPlayers() {
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            onlinePlayer.removePotionEffect(PotionEffectType.GLOWING);
-        }
     }
 }

@@ -22,3 +22,5 @@ commands:
     usage: /hide
   cbgui:
     description: Öffnet das Citybuild GUI.
+  nether:
+    description: Teleport to a random safe location in the Nether.
