@@ -5,10 +5,7 @@ import de.flunar.citybuildsystem.commands.*;
 import de.flunar.citybuildsystem.listeners.PlayerDeathListener;
 import de.flunar.citybuildsystem.listeners.PlayerJoinListener;
 import de.flunar.citybuildsystem.listeners.PlayerQuitListener;
-import de.flunar.citybuildsystem.managers.ConfigManager;
-import de.flunar.citybuildsystem.managers.DatabaseConfig;
-import de.flunar.citybuildsystem.managers.MySQLManager;
-import de.flunar.citybuildsystem.managers.ProtectionManager;
+import de.flunar.citybuildsystem.managers.*;
 import de.flunar.citybuildsystem.utils.Data;
 import org.bukkit.*;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -56,10 +53,11 @@ public final class CitybuildSystem extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(Data.PREFIX + ChatColor.GREEN + "Das Citybuild System wurde gestartet!");
         Bukkit.getConsoleSender().sendMessage(Data.PREFIX + ChatColor.RED + "Code By Iownme_ / Shadowxmare");
 
-        HideCommand hideCommand = new HideCommand(this);
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(mysqlManager, this, hideCommand), this);
+        new PlayerJoinListener(mysqlManager,this);
         new PlayerQuitListener(this);
         new PlayerDeathListener(mysqlManager,this);
+
+
 
         //Farmwelt
         new BukkitRunnable() {
@@ -81,7 +79,6 @@ public final class CitybuildSystem extends JavaPlugin {
         //COMMANDS
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
         getCommand("cbhelp").setExecutor(new CBHelpCommand());
-        getCommand("hide").setExecutor(new HideCommand(this));
         getCommand("cbgui").setExecutor(new CBGuiCommand(this));
         getCommand("nether").setExecutor(new NetherCommand(this));
 
@@ -91,7 +88,8 @@ public final class CitybuildSystem extends JavaPlugin {
 
 
 
-
+        ArmorStandRemover armorStandRemover = new ArmorStandRemover(this, mysqlManager);
+        armorStandRemover.removeArmorStandsNearSpawn();
 
 
     }

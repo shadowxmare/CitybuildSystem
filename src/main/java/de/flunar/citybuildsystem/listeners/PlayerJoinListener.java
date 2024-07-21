@@ -1,7 +1,6 @@
 package de.flunar.citybuildsystem.listeners;
 
 import de.flunar.citybuildsystem.CitybuildSystem;
-import de.flunar.citybuildsystem.commands.HideCommand;
 import de.flunar.citybuildsystem.managers.MySQLManager;
 import de.flunar.citybuildsystem.scoreboard.TestScoreboard;
 import de.flunar.citybuildsystem.utils.Data;
@@ -23,15 +22,15 @@ public class PlayerJoinListener implements Listener {
 
     private final MySQLManager mysqlManager;
     private final CitybuildSystem plugin;
-    private final HideCommand hideCommand;
     private final Set<String> notifiedPlayers = new HashSet<>();
 
-    public PlayerJoinListener(MySQLManager mysqlManager, CitybuildSystem plugin, HideCommand hideCommand) {
+    public PlayerJoinListener(MySQLManager mysqlManager, CitybuildSystem plugin) {
         this.mysqlManager = mysqlManager;
         this.plugin = plugin;
-        this.hideCommand = hideCommand;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
+
+
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
@@ -59,27 +58,6 @@ public class PlayerJoinListener implements Listener {
         if (mysqlManager != null) {
             // Beispiel für das Abrufen der Spawn-Location und Teleportation
             player.teleport(mysqlManager.getSpawnLocation(spawnId));
-        }
-
-        // Verstecke alle Spieler, die /hide aktiviert haben, vor dem neuen Spieler
-        hideCommand.getHiddenPlayers().forEach(hiddenPlayerUUID -> {
-            Player hiddenPlayer = Bukkit.getPlayer(hiddenPlayerUUID);
-            if (hiddenPlayer != null && !player.hasPermission("flunar.team")) {
-                player.hidePlayer(plugin, hiddenPlayer);
-            }
-        });
-
-        // Füge den Glüheffekt zu allen Spielern hinzu, außer zu denen, die flunar.team Berechtigung haben
-        if (!player.hasPermission("flunar.team")) {
-            Bukkit.getOnlinePlayers().forEach(onlinePlayer -> {
-                if (!onlinePlayer.equals(player) && !hideCommand.getHiddenPlayers().contains(onlinePlayer.getUniqueId())) {
-                    onlinePlayer.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, false, false, false));
-                }
-            });
-        }
-
-        if (hideCommand.getHiddenPlayers().contains(player.getUniqueId())) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, false, false, false));
         }
     }
 }
