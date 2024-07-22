@@ -16,6 +16,7 @@ public class CBHelpCommand implements CommandExecutor {
             sender.sendMessage(Data.HELP_COMMAND_PREFIX);
             sender.sendMessage(ChatColor.YELLOW + "/farmwelt " + ChatColor.GRAY + "- Bringt dich Zur Farmwelt");
             sender.sendMessage(ChatColor.YELLOW + "/nether " + ChatColor.GRAY + "- Bringt dich in denn Nether");
+            sender.sendMessage(ChatColor.YELLOW + "/end " + ChatColor.GRAY + "- Bringt dich in das End");
             sender.sendMessage(ChatColor.YELLOW + "/spawn " + ChatColor.GRAY + "- Bringt dich Zum Spawn");
             sender.sendMessage(ChatColor.YELLOW + "/p home " + ChatColor.GRAY + "- Bring dich zu deinem Plot");
             sender.sendMessage(ChatColor.YELLOW + "/p auto " + ChatColor.GRAY + "- Erhalte ein zufälliges Plot");

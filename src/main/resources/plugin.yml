@@ -21,3 +21,5 @@ commands:
     description: Öffnet das Citybuild GUI.
   nether:
     description: Teleport to a random safe location in the Nether.
+  end:
+    description: Teleport to a random safe location in the End.

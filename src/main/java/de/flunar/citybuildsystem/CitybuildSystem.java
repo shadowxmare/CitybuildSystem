@@ -6,6 +6,7 @@ import de.flunar.citybuildsystem.listeners.PlayerDeathListener;
 import de.flunar.citybuildsystem.listeners.PlayerJoinListener;
 import de.flunar.citybuildsystem.listeners.PlayerQuitListener;
 import de.flunar.citybuildsystem.managers.*;
+import de.flunar.citybuildsystem.utils.AutoBroadcast;
 import de.flunar.citybuildsystem.utils.Data;
 import org.bukkit.*;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -56,6 +57,7 @@ public final class CitybuildSystem extends JavaPlugin {
         new PlayerJoinListener(mysqlManager,this);
         new PlayerQuitListener(this);
         new PlayerDeathListener(mysqlManager,this);
+        new AutoBroadcast(this);
 
 
 
@@ -81,6 +83,7 @@ public final class CitybuildSystem extends JavaPlugin {
         getCommand("cbhelp").setExecutor(new CBHelpCommand());
         getCommand("cbgui").setExecutor(new CBGuiCommand(this));
         getCommand("nether").setExecutor(new NetherCommand(this));
+        getCommand("end").setExecutor(new EndCommand(this));
 
 
         new SpawnCommand(this, mysqlManager);
