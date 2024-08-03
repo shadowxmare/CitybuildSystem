@@ -84,6 +84,7 @@ public final class CitybuildSystem extends JavaPlugin {
         getCommand("cbgui").setExecutor(new CBGuiCommand(this));
         getCommand("nether").setExecutor(new NetherCommand(this));
         getCommand("end").setExecutor(new EndCommand(this));
+        getCommand("grundstück").setExecutor(new GrundstückCommand(this));
 
 
         new SpawnCommand(this, mysqlManager);
@@ -165,22 +166,37 @@ public final class CitybuildSystem extends JavaPlugin {
 
     private void createTableIfNotExists(Connection connection) {
         try {
-            PreparedStatement statement = connection.prepareStatement(
-                    "CREATE TABLE IF NOT EXISTS spawns_data (" +
-                            "spawns INT NOT NULL," +  // Neue Spalte hinzugefügt
-                            "world VARCHAR(255) NOT NULL," +
-                            "x DOUBLE NOT NULL," +
-                            "y DOUBLE NOT NULL," +
-                            "z DOUBLE NOT NULL," +
-                            "yaw FLOAT NOT NULL," +
-                            "pitch FLOAT NOT NULL" +
-                            ");"
-            );
-            statement.executeUpdate();
+            // Tabelle spawns_data erstellen
+            String spawnsDataSql = "CREATE TABLE IF NOT EXISTS spawns_data (" +
+                    "spawns INT NOT NULL," +  // ID für Spawns
+                    "world VARCHAR(255) NOT NULL," +  // Name der Welt
+                    "x DOUBLE NOT NULL," +  // X-Koordinate
+                    "y DOUBLE NOT NULL," +  // Y-Koordinate
+                    "z DOUBLE NOT NULL," +  // Z-Koordinate
+                    "yaw FLOAT NOT NULL," +  // Yaw-Winkel
+                    "pitch FLOAT NOT NULL" +  // Pitch-Winkel
+                    ");";
+            try (PreparedStatement spawnsStatement = connection.prepareStatement(spawnsDataSql)) {
+                spawnsStatement.executeUpdate();
+            }
+
+            // Tabelle player_data erstellen
+            String playerDataSql = "CREATE TABLE IF NOT EXISTS player_data (" +
+                    "uuid VARCHAR(36) NOT NULL PRIMARY KEY," +  // Spieler UUID als VARCHAR
+                    "player_name VARCHAR(100) NOT NULL," +       // Name des Spielers als VARCHAR
+                    "firstjoin TIMESTAMP NOT NULL" +             // Datum und Uhrzeit des ersten Beitritts
+                    ");";
+            try (PreparedStatement playerStatement = connection.prepareStatement(playerDataSql)) {
+                playerStatement.executeUpdate();
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+
+
 
 
     private void createDefaultConfig() {

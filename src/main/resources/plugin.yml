@@ -23,3 +23,6 @@ commands:
     description: Teleport to a random safe location in the Nether.
   end:
     description: Teleport to a random safe location in the End.
+  grundstück:
+    description: Open the Grundstück GUI.
+    aliases: [ gs ]

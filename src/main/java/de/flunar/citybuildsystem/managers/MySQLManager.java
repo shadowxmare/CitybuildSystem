@@ -95,29 +95,50 @@ public class MySQLManager {
 
     public Location getSpawnLocation(int spawnId) {
         String query = "SELECT world, x, y, z, yaw, pitch FROM spawns_data WHERE spawns = ?;";
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = getConnection().prepareStatement(query)) {
             statement.setInt(1, spawnId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                String worldName = resultSet.getString("world");
-                World world = Bukkit.getWorld(worldName);
-                if (world == null) {
-                    throw new SQLException("Welt " + worldName + " konnte nicht gefunden werden.");
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    String worldName = resultSet.getString("world");
+                    World world = Bukkit.getWorld(worldName);
+                    if (world == null) {
+                        throw new SQLException("Welt " + worldName + " konnte nicht gefunden werden.");
+                    }
+                    double x = resultSet.getDouble("x");
+                    double y = resultSet.getDouble("y");
+                    double z = resultSet.getDouble("z");
+                    float yaw = resultSet.getFloat("yaw");
+                    float pitch = resultSet.getFloat("pitch");
+                    return new Location(world, x, y, z, yaw, pitch);
+                } else {
+                    throw new SQLException("Kein Spawn-Punkt mit der ID " + spawnId + " gefunden.");
                 }
-                double x = resultSet.getDouble("x");
-                double y = resultSet.getDouble("y");
-                double z = resultSet.getDouble("z");
-                float yaw = resultSet.getFloat("yaw");
-                float pitch = resultSet.getFloat("pitch");
-                return new Location(world, x, y, z, yaw, pitch);
-            } else {
-                throw new SQLException("Kein Spawn-Punkt mit der ID " + spawnId + " gefunden.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving spawn location", e);
+            return null;
         }
-        return null;
     }
 
+    public boolean checkIfPlayerExists(String uuid) throws SQLException {
+        String query = "SELECT COUNT(*) FROM player_data WHERE uuid = ?";
+        try (PreparedStatement stmt = getConnection().prepareStatement(query)) {
+            stmt.setString(1, uuid);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void addPlayer(String uuid, String playerName) throws SQLException {
+        String query = "INSERT INTO player_data (uuid, player_name, firstjoin) VALUES (?, ?, NOW())";
+        try (PreparedStatement stmt = getConnection().prepareStatement(query)) {
+            stmt.setString(1, uuid);
+            stmt.setString(2, playerName);
+            stmt.executeUpdate();
+        }
+    }
 }

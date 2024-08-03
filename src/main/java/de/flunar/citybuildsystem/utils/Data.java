@@ -16,5 +16,9 @@ public class Data {
 
     public static String CBGUI_COMMAND_GUI = ChatColor.GREEN + "§lCitybuild";
 
+    public static String GS_COMMAND_GUI = ChatColor.AQUA + "§lGrundstücks - Menü";
+
+
+
 
 }
